@@ -1,0 +1,56 @@
+{% extends "adicionar.html" %}
+{% block table_type %}
+{% endblock %}
+{% block h1 %} {{ title }} {% endblock %}
+{% block conteudo %}
+<div class="conteiner">
+    {% if tipo_tabela == "Produtos" %}
+      <form action="/edit/produto/{{ produto.id }}" method="POST">
+        {% for form_id, form_label in form %}
+        <div class="form-group">
+          {% if loop.index ==1 %}
+          <label for="{{ form_id }}">{{ form_label }}</label>
+          <input type="text" class="form-control" name="{{ form_id }}" value="{{ produto.nome_produto }}" placeholder="Digite o {{ form_label }}.">
+          {% elif loop.index ==2 %}
+          <label for="{{ form_id }}">{{ form_label }}</label>
+          <input type="text" class="form-control" name="{{ form_id }}" value="{{ produto.code_produto }}" placeholder="Digite o {{ form_label }}.">
+          {% elif loop.index == 3 %}
+              <label for="{{ form_id }}">{{ form_label }}</label>
+              <input type="range" class="form-control"  value="{{ produto.quality_produto }}" name="{{ form_id }}" min="0" max="10" step="1">
+          {% elif loop.index == 4 %}
+              <div style="display: flex;">
+              {% if produto.is_active_produto == "True" %}
+              <input style="width: 30px;" type="checkbox" class="form-control" name="{{ form_id }}" value="True" checked>
+              </div>
+              {% else %}
+              <input style="width: 30px;" type="checkbox" class="form-control" name="{{ form_id }}" value="True">
+              {% endif %}
+              <label style="padding-left: 10px; margin-top: auto; margin-bottom: auto; " for="{{ form_id }}">Produto em estoque</label>
+
+          {% elif loop.index == 5 %}
+              <label for="{{ form_id }}">{{ form_label }}</label>
+              <input list="categorias_names" class="form-control" value="{{ produto.category_id }}" name="{{ form_id }}" placeholder="Digite o {{ form_label }}.">
+              <datalist id="categorias_names">
+                {% for categoria in categorias %}
+                <option value="{{ categoria.id }}">{{ categoria.nome_categoria }}</option>
+                {% endfor %}
+              </datalist>
+              
+              {% endif %}
+        </div>
+        {% endfor %}
+        <div style="display: flex;">
+        <input style="margin-left: auto; margin-right: auto;" type="submit" value="Editar">
+        </div>
+    {% elif tipo_tabela == "Categoria" %} 
+      <form action="/edit/categoria/{{ categoria.id }}" method="POST">
+        <div class="form-group">
+          <label for="nome_categoria">Nome da categoria</label>
+          <input type="text" class="form-control" value="{{ categoria.nome_categoria }}" name="nome_categoria" placeholder="Digite o nome da Categoria.">
+          <input style="margin-left: auto; margin-right: auto;" type="submit" value="Editar">
+        </div>
+    {% endif %}
+      
+    </form>
+  </div>
+  {% endblock %}

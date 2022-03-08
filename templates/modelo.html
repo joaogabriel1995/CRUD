@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}{% endblock %}
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %} -</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <header>
+            <h1 id="title-page">{% block h1 %} CRUD PRODUTOS{% endblock %} </h1>
+            {% block table_type %}
+            <form class="text-center" action="{{ action_button }}" method="POST" >
+                <label>{% block label_info_table %}Escolha a tabela: {% endblock %} </label>
+                <input list="table_type", name="table" >
+                <datalist id="table_type">
+                    <option value="Produtos" />
+                    <option value="Categoria" />
+                </datalist>
+                <input type="submit" value="Escolher">
+            </form>
+            {% endblock %}
+        </header>
+        <main>
+            {% block conteudo %}
+            {% endblock %}
+        </main>
+    </body>
+</html>

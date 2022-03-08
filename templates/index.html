@@ -1,0 +1,95 @@
+{% extends "modelo.html" %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  {% block head %}
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_index.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  {% endblock %}
+</head>
+
+<body>
+  {% block table_type %}
+
+  {{ super() }}
+
+  {% endblock %}
+  {% block conteudo %}
+  </form>
+  <div class="conteiner">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="d-flex bg-dark">
+          <div class="col-sm-6">
+
+            <h2 class="text-center text-white">Tabela de {{ tabela }}</h2>
+          </div>
+          <div class="wrapper-button">
+            <form action="/" method="POST">
+              {% if tabela == "Produtos" %}
+              <input type="submit" class="btn btn-success" value="Adicionar" name="add_prod">
+              {% elif tabela == "Categoria" %}
+              <input type="submit" class="btn btn-success" value="Adicionar" name="add_cat">
+              {% endif %}
+            </form>
+          </div>
+        </div>
+        <table class="table table-striped">
+          <thead class="table-light">
+            {% if tabela == "Produtos" %}
+            <tr>
+              <th>Nome do Produto</th>
+              <th>Código do Produto</th>
+              <th>qualidade do Produto</th>
+              <th>Produto Disponivel</th>
+              <th>Categoria</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for produto in produtos %}
+            <tr>
+              <td> {{ produto.nome_produto }} </td>
+              <td> {{ produto.code_produto }}</td>
+              <td>{{ produto.quality_produto }}</td>
+              <td>{{ produto.is_active_produto }}</td>
+              <td>{{ produto.category_id }}</td>
+              <td><a href="/edit/produto/{{ produto.id }}"><button
+                    class="btn btn-warning button-table m-1"></button></a><a
+                  href="/excluir/produto/{{ produto.id }}"><button class="btn btn-danger button-table m-1"></button></a>
+              </td>
+            </tr>
+            {% endfor %}
+            {% elif tabela == "Categoria" %}
+            <tr>
+              <th>#</th>
+              <th>Nome da Categoria</th>
+              <th>Ação</th>
+            </tr>
+            </thead>
+
+            {% for categoria in categorias %}
+            <tr>
+              <td>{{ categoria.id }}</td>
+              <td>{{ categoria.nome_categoria }}</td>
+              <td><a href="/edit/categoria/{{ categoria.id }}"><button
+                    class="btn btn-warning button-table m-1"></button></a><a
+                  href="/excluir/categoria/{{ categoria.id }}"><button
+                    class="btn btn-danger button-table m-1"></button></a></td>
+            </tr>
+            {% endfor %}
+
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+{% extends "modelo.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style_add.css') }}">
+{% endblock %}
+{% block h1 %}{{ title }} {% endblock %}
+{% block label_info_table %}Escolha a tabela a ser modificada{% endblock %}
+{% block conteudo %}
+
+ 
+<div class="conteiner">
+  {% if tipo_tabela == "Produtos" %}
+    <form action="/adicionar_produto" method="POST">
+      {% for form_id, form_label in form %}
+      <div class="form-group">
+        {% if loop.index < 3 %}
+        <label for="{{ form_id }}">{{ form_label }}</label>
+        <input type="text" class="form-control" name="{{ form_id }}" placeholder="Digite o {{ form_label }}.">
+        {% elif loop.index == 3 %}
+            <label for="{{ form_id }}">{{ form_label }}</label>
+            <input type="range" class="form-control" name="{{ form_id }}" min="0" max="10" step="1">
+        {% elif loop.index == 4 %}
+            <div style="display: flex;">
+            <input style="width: 30px;" type="checkbox" class="form-control" name="{{ form_id }}" value="1">
+            <label style="padding-left: 10px; margin-top: auto; margin-bottom: auto; " for="{{ form_id }}">Produto em estoque</label>
+            </div>
+        {% elif loop.index == 5 %}
+            <label for="{{ form_id }}">{{ form_label }}</label>
+            <input list="categorias_names" class="form-control" name="{{ form_id }}" placeholder="Digite o {{ form_label }}.">
+            <datalist id="categorias_names">
+              {% for categoria in categorias %}
+              <option value="{{ categoria.id }}">{{ categoria.nome_categoria }}</option>
+              {% endfor %}
+            </datalist>
+            
+            {% endif %}
+      </div>
+      {% endfor %}
+      <div style="display: flex;">
+      <input style="margin-left: auto; margin-right: auto;" type="submit" value="Cadastrar">
+      </div>
+  {% elif tipo_tabela == "Categoria" %} 
+    <form action="/adicionar_categoria" method="POST">
+      <div class="form-group">
+        <label for="nome_categoria">Nome da categoria</label>
+        <input type="text" class="form-control" name="nome_categoria" placeholder="Digite o nome da Categoria.">
+        <input style="margin-left: auto; margin-right: auto;" type="submit" value="Cadastrar">
+      </div>
+  {% endif %}
+    
+  </form>
+</div>
+
+
+{% endblock %}
